@@ -1,0 +1,10 @@
+aiogram==3.5.0
+aiogram-dialog==2.1.0
+asyncio==3.4.3
+SQLAlchemy==2.0.30
+psycopg==3.1.18
+psycopg-binary
+fluentogram==1.1.7
+environs==11.0.0
+redis==5.0.4
+alembic

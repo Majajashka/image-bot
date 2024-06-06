@@ -1,0 +1,47 @@
+version: "3.3"
+services:
+  bot:
+    build: .
+    container_name: tg_bot
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: db
+      REDIS_HOST: redis
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - bot-network
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5430:5432"
+    restart: unless-stopped
+    networks:
+      - bot-network
+
+  redis:
+    image: redis:latest
+    container_name: redis_cache
+    ports:
+      - "6370:6379"
+    restart: unless-stopped
+    networks:
+      - bot-network
+
+volumes:
+  pgdata:
+
+networks:
+  bot-network:
+    driver: bridge
