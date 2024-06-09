@@ -10,8 +10,8 @@ class DanbooruRequestArgs:
     tags: Optional[Collection[str]] = None
 
     def __post_init__(self):
-        if self.count < 0:
-            raise ValueError("Request count should be positive number")
+        if self.count <= 0:
+            raise ValueError("Request count should be positive number.")
 
         if isinstance(self.tags, Collection):
             priceble_tags_count = 0
@@ -56,6 +56,7 @@ class DanbooruPost:
     def __eq__(self, other):
         if isinstance(other, DanbooruPost):
             return self.id == other.id or self.md5 == other.md5
+        return False
 
     @classmethod
     def from_dict(cls, data: dict):
@@ -77,5 +78,3 @@ class DanbooruPost:
             ),
             md5=data.get('md5')
         )
-
-print(DanbooruRequestArgs(11, None))
