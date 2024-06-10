@@ -1,8 +1,9 @@
-import asyncio
 from typing import Optional, Collection
+from aiohttp import ClientResponse
 
 from app.core.external_service.api.base import BaseExternalAPI
 from app.core.models.dto.api.danbooru import DanbooruPost
+from app.core.utils.expections import DanbooruApiError
 
 
 class DanbooruAPI(BaseExternalAPI):
@@ -23,6 +24,4 @@ class DanbooruAPI(BaseExternalAPI):
             params=params
         )
         return DanbooruPost.from_dict(data=data)
-
-
 
