@@ -7,9 +7,14 @@ from app.core.models.dto.api.danbooru import DanbooruPost
 
 class DanbooruAPI(BaseExternalAPI):
     def __init__(self):
-        super().__init__(url="https://danbooru.donmai.us")
+        super().__init__(url="https://danbooru.donmai.us", error=DanbooruApiError)
 
-    async def image(self, tags: Optional[Collection[str]]):
+    async def _handle_error(self, response: ClientResponse, description: str = None) -> None:
+        data: dict = await response.json()
+        description = data.get('message')
+        await super()._handle_error(response, description)
+
+    async def image(self, tags: Optional[Collection[str]] = None):
         params = {
             'tags': ','.join(tags)
         }
