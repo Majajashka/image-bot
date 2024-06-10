@@ -16,7 +16,7 @@ class DanbooruAPI(BaseExternalAPI):
 
     async def image(self, tags: Optional[Collection[str]] = None):
         params = {
-            'tags': ','.join(tags)
+            'tags': ','.join(tags if tags else [])
         }
         data = await self.get(
             endpoint='posts/random.json',
