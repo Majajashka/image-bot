@@ -22,10 +22,7 @@ class DanbooruRequestArgs:
 
                 if priceble_tags_count > 2:
                     # Danbooru API limit
-                    raise ValueError("Tags count can't be more than 2")
-
-
-
+                    raise ValueError("You cannot search for more than 2 tags at a time")
 
 
 @dataclass
