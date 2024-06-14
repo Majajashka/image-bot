@@ -14,14 +14,15 @@ class UserRepo(BaseRepo[UserOrm]):
     async def get_by_id(self, user_id: int) -> User:
         return (await self._get_by_id(user_id)).to_dto()
 
-    async def create_user(self, user: User) -> User:
-        saved_user = await self.session.execute(
-            insert(UserOrm)
-            .values(
-                id=user.id,
-            )
-            .returning(UserOrm)
+    async def get_or_create_user(self, user: User) -> User:
+        insert_stmt = insert(UserOrm).values(id=user.id)
+        update_stmt = insert_stmt.on_conflict_do_update(
+            constraint='id',
+            set_=dict(
+                id=insert_stmt.excluded.id)
         )
+
+        saved_user = await self.session.execute(update_stmt)
         return saved_user.scalar_one().to_dto()
 
     async def get_users_count_by_status(self, status: bool = True) -> int:
