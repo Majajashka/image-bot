@@ -1,11 +1,11 @@
 from aiogram import Router
 
-from .danbooru import danbooru_router
+from . import danbooru
 
 
 def setup():
     router = Router()
     router.include_routers(
-        danbooru_router
+        danbooru.router
     )
     return router
