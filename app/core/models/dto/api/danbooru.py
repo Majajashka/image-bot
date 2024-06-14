@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, Collection
 
-from app.core.external_service.api.constants.danbooru import FREE_TAGS
+from app.core.constants.danbooru import FREE_TAGS
 
 
 @dataclass
