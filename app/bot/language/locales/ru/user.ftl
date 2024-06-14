@@ -1,15 +1,19 @@
 start = Добро пожаловать, { $name }!
 
-api-danbooru_post =
-    { $tags ->
-        <b>Tags</b>: { $tags }
-    }
-    { $score ->
-        <b>Score</b>: { $score }
-    }
-    { $url ->
-        <b>Url</b>: { $url }
-    }
-    { $rating ->
-        <b>Rating</b>: { $rating }
+post-danbooru = { $tags ->
+        [0] {""}
+        *[other]{""}
+                <b>Tags</b>: { $tags }
+    }{ $rating ->
+        [0] {""}
+        *[other]{""}
+                <b>Rating</b>: { $rating }
+    }{ $score ->
+        [0] {""}
+        *[other]{""}
+                <b>Score</b>: { $score }
+    }{ $url ->
+        [0] {""}
+        *[other]{""}
+                <b>Url</b>: { $url }
     }
