@@ -8,8 +8,7 @@ from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
 from fluentogram import TranslatorHub
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
-from app.bot.handlers import admin, basic
-from app.bot.handlers.external_api import danbooru
+from app.bot import handlers
 from app.bot.language.translator import translator_hub
 from app.bot.middlewaries.db import DbSessionMiddleware
 from app.bot.middlewaries.translator import TranslatorMD
@@ -38,14 +37,13 @@ async def main() -> None:
               default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher(storage=storage)
 
-    logger.info(config.db.construct_sqlalchemy_url())
     async_engine = create_async_engine(config.db.construct_sqlalchemy_url())
     sessionmaker = async_sessionmaker(async_engine)
 
     dp.workflow_data.update({"_translator_hub": t_hub, "config": config})
 
     logger.info('Including routers...')
-    dp.include_routers(basic.basic_router, admin.admin_router, danbooru.router)
+    dp.include_routers(handlers.setup())
 
     logger.info('Including middlewaries...')
     dp.update.middleware(DbSessionMiddleware(session_pool=sessionmaker))

@@ -16,13 +16,13 @@ from app.infrastructure.database.holder import HolderRepo
 # from bot.language.locales.stubs.stub import TranslatorRunner
 
 logger = logging.getLogger(__name__)
-admin_router = Router(name=__name__)
+router = Router(name=__name__)
 
-admin_router.message.filter(IsAdmin())
-admin_router.callback_query.filter(IsAdmin())
+router.message.filter(IsAdmin())
+router.callback_query.filter(IsAdmin())
 
 
-@admin_router.message(Command('total'))
+@router.message(Command('total'))
 async def total(message: Message, repo: HolderRepo, i18n: TranslatorRunner):
     count = await get_users_count_by_status(repo.users)
     await message.answer(i18n.total(total_users_count=str(count.active+count.inactive),
@@ -30,7 +30,7 @@ async def total(message: Message, repo: HolderRepo, i18n: TranslatorRunner):
                                     inactive_users_count=str(count.inactive)))
 
 
-@admin_router.message(Command('admin_list'))
+@router.message(Command('admin_list'))
 async def admin_list(message: Message, config: Config, bot: Bot, i18n: TranslatorRunner):
     admin_ids = config.tg_bot.admin_ids
     admin_lines = []
