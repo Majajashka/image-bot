@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, Collection
 
-from app.core.constants.danbooru import FREE_TAGS
+from app.core.utils.validate_args import validate_danbooru_tags
 
 
 @dataclass
@@ -10,19 +10,16 @@ class DanbooruRequestArgs:
     tags: Optional[Collection[str]] = None
 
     def __post_init__(self):
+        if not isinstance(self.count, int):
+            raise TypeError(f"Tags should be {self.__annotations__['count']}, not {type(self.count)}")
+
+        if not isinstance(self.tags, Collection) and self.tags is not None:
+            raise TypeError(f"Tags should be {self.__annotations__['tags']}, not {type(self.tags)}")
+
         if self.count <= 0:
-            raise ValueError("Request count should be positive number.")
+            raise ValueError(f"Request count should be positive number, not {self.count}")
 
-        if isinstance(self.tags, Collection):
-            priceble_tags_count = 0
-
-            for tag in self.tags:
-                if not any(tag.startswith(free_tag) for free_tag in FREE_TAGS):
-                    priceble_tags_count += 1
-
-                if priceble_tags_count > 2:
-                    # Danbooru API limit
-                    raise ValueError("You cannot search for more than 2 tags at a time")
+        validate_danbooru_tags(self.tags)
 
 
 @dataclass
