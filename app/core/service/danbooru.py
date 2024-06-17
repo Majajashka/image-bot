@@ -42,4 +42,5 @@ async def get_or_create_user_danbooru(user_id: int, repo: DanbooruRepo) -> UserD
         user_danbooru = await repo.get_by_id(user_id)
     except NoResultFound:
         user_danbooru = await repo.create_for_user(user_id)
+    await repo.session.commit()
     return user_danbooru
