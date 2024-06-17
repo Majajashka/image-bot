@@ -1,15 +1,16 @@
 from logging import getLogger
 
 from aiogram import Router
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, CommandObject
-from aiogram.types import Message
+from aiogram.types import Message, URLInputFile
 from fluentogram import TranslatorRunner
 
 from app.core.models.dto.api.parse_config import ParseConfig
-from app.core.service.danbooru import parse_user_danbooru_args
-from app.core.service.danbooru import get_danbooru_post
-from app.core.utils.expections import ApiError
+from app.core.service.danbooru import get_danbooru_post, parse_user_danbooru_args, get_or_create_user_danbooru
+from app.core.utils.expections import InvalidDanbooruPostData
 from app.infrastructure.database.holder import HolderRepo
+from app.core.constants.danbooru import MAX_ADMIN_POST_COUNT
 
 router = Router(name=__name__)
 logger = getLogger(name=__name__)
@@ -22,19 +23,31 @@ async def danbooru_images(
         i18n: TranslatorRunner,
         repo: HolderRepo
 ):
-    post_args = await parse_user_danbooru_args(user_args=command.args, parse_config=ParseConfig(10))
+    user = await get_or_create_user_danbooru(user_id=message.from_user.id, repo=repo.danbooru)
+    logger.info(user)
+    post_args = parse_user_danbooru_args(
+        user_args=command.args,
+        parse_config=ParseConfig(
+            max_count=MAX_ADMIN_POST_COUNT,
+            default_tags=user.default_tags_list,
+            default_count=user.default_count
+        )
+    )
+    logger.info(f'Posts for User: {message.from_user.full_name}, id: {message.from_user.id}, {post_args}')
 
     for _ in range(post_args.count):
         try:
             post = await get_danbooru_post(post_args.tags)
             await message.answer_photo(
-                caption=i18n.api.danbooru_post(
-                    tags=post.tags.general,
-                    url=post.file.url,
-                    score=post.score,
-                    rating=post.rating
+                caption=i18n.post.danbooru(
+                    tags=post.tags.general_tags_html_escape if user.display.tags else False,
+                    url=post.file.url if user.display.url else False,
+                    score=post.score if user.display.score else False,
+                    rating=post.rating if user.display.rating else False
                 ),
-                photo=post.file.url)
-        except (ApiError, ValueError) as e:
-            logger.info(e.__str__)
-            await message.answer(e.__str__())
+                photo=URLInputFile(url=post.file.url_by_size())
+            )
+        except InvalidDanbooruPostData as e:
+            logger.debug(e)
+        except TelegramBadRequest as e:
+            logger.debug(e)
