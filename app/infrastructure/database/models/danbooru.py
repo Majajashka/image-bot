@@ -10,7 +10,7 @@ class DanbooruOrm(Base, TimestampMixin):
     __tablename__ = 'danbooru'
 
     tg_id: Mapped[int] = mapped_column(BigInteger, ForeignKey('users.tg_id'), primary_key=True)
-    default_tags: Mapped[str] = mapped_column(default=USER_DEFAULT_TAGS)
+    default_tags: Mapped[str] = mapped_column(default=' '.join(USER_DEFAULT_TAGS))
     default_count: Mapped[int] = mapped_column(default=1)
     tags_display: Mapped[bool] = mapped_column(default=True)
     score_display: Mapped[bool] = mapped_column(default=True)
