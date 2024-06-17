@@ -6,7 +6,7 @@ from app.core.models.dto.api.danbooru import DanbooruPost, DanbooruRequestArgs
 from app.core.external_service.api.danbooru import DanbooruAPI
 from app.core.models.dto.api.parse_config import ParseConfig
 from app.core.models.dto.danbooru import UserDanbooruSettings
-from app.core.utils.expections import UserArgumentError
+from app.core.utils.expections import UserArgumentError, InvalidRequestCount
 from app.core.utils.parse_args import parse_args_for_post
 from app.infrastructure.database.repo.danbooru import DanbooruRepo
 
@@ -17,9 +17,11 @@ def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> Danbo
     except ValueError as e:
         raise UserArgumentError(f'Invalid arguments: {e}', user_args=user_args) from e
     if parsed_args.count > parse_config.max_count:
-        raise UserArgumentError(
-            message="The number of requests shouldn't exceed 10",
-            user_args=user_args
+        raise InvalidRequestCount(
+            message=f"The number of requests shouldn't exceed {parse_config.max_count}",
+            user_args=user_args,
+            count=parsed_args.count,
+            max_count=parse_config.max_count
         )
     return parsed_args
 
