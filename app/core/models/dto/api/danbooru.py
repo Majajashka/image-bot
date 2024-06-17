@@ -36,6 +36,12 @@ class DanbooruPostFile:
     url: str
     small_file_url: str
     preview_url: str
+    file_size: int
+
+    def url_by_size(self, max_size: int = 10_485_760):
+        if self.file_size > max_size:
+            return self.small_file_url
+        return self.url
 
 
 @dataclass
@@ -59,7 +65,8 @@ class DanbooruPost:
             file=DanbooruPostFile(
                 url=data.get('file_url'),
                 small_file_url=data.get('large_file_url'),
-                preview_url=data.get('preview_url')
+                preview_url=data.get('preview_url'),
+                file_size=data.get('file_size')
             ),
             score=data.get('score'),
             rating=data.get('rating'),
