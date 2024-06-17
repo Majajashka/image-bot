@@ -1,3 +1,6 @@
+from typing import Optional, Collection
+
+
 class ApiError(Exception):
     def __init__(
             self,
@@ -42,6 +45,13 @@ class InvalidRequestCount(UserArgumentError):
 
 
 class InvalidTagsCount(UserArgumentError):
-    def __init__(self, message: str, tags: str, user_args: str = None):
+    def __init__(
+            self,
+            message: str,
+            count: int,
+            tags: Optional[Collection[str]] = None,
+            user_args: str = None
+    ):
         super().__init__(message=message, user_args=user_args)
+        self.count = count
         self.tags = tags
