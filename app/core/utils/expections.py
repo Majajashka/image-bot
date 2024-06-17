@@ -36,12 +36,12 @@ class ApiError(Exception):
 class DanbooruApiError(ApiError):
     def __init__(
             self,
-            response_status: int = None,
+            response: ClientResponse = None,
             api_name: str = None,
             url: str = None,
             description: str = None
     ):
-        super().__init__(response_status, api_name, url, description)
+        super().__init__(response, api_name, url, description)
 
 
 class UserArgumentError(ValueError):
@@ -71,6 +71,7 @@ class InvalidRequestCount(UserArgumentError):
     def __str__(self):
         return f'{self.count=}. {self.max_count}'
 
+
 class InvalidTagsCount(UserArgumentError):
     def __init__(
             self,
@@ -85,3 +86,7 @@ class InvalidTagsCount(UserArgumentError):
 
     def __str__(self):
         return f'{self.tags=}. {self.count}'
+
+
+class InvalidDanbooruPostData(ValueError):
+    pass
