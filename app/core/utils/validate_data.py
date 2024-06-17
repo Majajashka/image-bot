@@ -4,7 +4,7 @@ from app.core.constants.danbooru import FREE_TAGS
 from app.core.utils.expections import InvalidTagsCount
 
 
-def validate_danbooru_tags(tags: Optional[Collection[str]], max_tags: int = 2) -> Optional[Collection[str]]:
+def validate_danbooru_request_tags(tags: Optional[Collection[str]], max_tags: int = 2) -> Optional[Collection[str]]:
     if not tags:
         return tags
 
