@@ -29,6 +29,11 @@ services:
     restart: unless-stopped
     networks:
       - bot-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U aiogram -d aiogram_template"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:latest
