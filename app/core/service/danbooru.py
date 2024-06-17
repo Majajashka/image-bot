@@ -11,8 +11,7 @@ from app.core.utils.parse_args import parse_args_for_post
 from app.infrastructure.database.repo.danbooru import DanbooruRepo
 
 
-
-async def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> DanbooruRequestArgs:
+def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> DanbooruRequestArgs:
     try:
         parsed_args = parse_args_for_post(user_args=user_args)
     except ValueError as e:
