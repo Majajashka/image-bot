@@ -8,6 +8,7 @@ from app.core.models.dto.api.parse_config import ParseConfig
 from app.core.models.dto.danbooru import UserDanbooruSettings
 from app.core.utils.expections import UserArgumentError, InvalidRequestCount
 from app.core.utils.parse_args import parse_args_for_post
+from app.core.utils.validate_response import validate_danbooru_post
 from app.infrastructure.database.repo.danbooru import DanbooruRepo
 
 
@@ -32,9 +33,12 @@ def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> Danbo
 
 async def get_danbooru_post(tags: Optional[Collection[str]] = None) -> DanbooruPost:
     danbooru = DanbooruAPI()
-    post = await danbooru.image(tags)
-    await danbooru.session_close()
-    return post
+    try:
+        post = await danbooru.image(tags)
+    finally:
+        await danbooru.session_close()
+    validated_post = validate_danbooru_post(post)
+    return validated_post
 
 
 async def get_or_create_user_danbooru(user_id: int, repo: DanbooruRepo) -> UserDanbooruSettings:
