@@ -12,6 +12,9 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from app.infrastructure.database.models.base import Base
+from app.infrastructure.database.models.user import UserOrm
+from app.infrastructure.database.models.danbooru import DanbooruOrm
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
