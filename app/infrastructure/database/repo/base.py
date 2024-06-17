@@ -6,11 +6,6 @@ from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.database.models.base import Base
-from app.infrastructure.database.models.user import UserOrm
-
-if platform == 'win32':
-    import asyncio
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 Model = TypeVar('Model', bound=Base, covariant=True, contravariant=False)
 
@@ -28,7 +23,7 @@ class BaseRepo(Generic[Model]):
         self.session: AsyncSession = session
         self.model = model
 
-    async def _get_by_id(self, user_id: int) -> UserOrm:
+    async def _get_by_id(self, user_id: int) -> Model:
         r = await self.session.get(
             self.model,
             user_id,
