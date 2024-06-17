@@ -13,7 +13,11 @@ from app.infrastructure.database.repo.danbooru import DanbooruRepo
 
 def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> DanbooruRequestArgs:
     try:
-        parsed_args = parse_args_for_post(user_args=user_args)
+        parsed_args = parse_args_for_post(
+            user_args=user_args,
+            default_count=parse_config.default_count,
+            default_tags=parse_config.default_tags
+        )
     except ValueError as e:
         raise UserArgumentError(f'Invalid arguments: {e}', user_args=user_args) from e
     if parsed_args.count > parse_config.max_count:
