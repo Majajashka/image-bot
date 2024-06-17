@@ -7,8 +7,6 @@ from app.core.utils.expections import UserArgumentError
 from app.core.utils.parse_args import parse_args_for_post
 
 
-class DanbooruRequest:
-    pass
 
 
 async def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> DanbooruRequestArgs:
