@@ -1,11 +1,14 @@
-import logging
+from sqlalchemy.exc import NoResultFound
 
 from app.core.models.dto.user import User, UserActivity
 from app.infrastructure.database.repo.user import UserRepo
 
 
-async def get_or_create_user_by_id(user_id: int, repo: UserRepo):
-    user = await repo.get_or_create_user(User(id=user_id))
+async def get_or_create_user(tg_id: int, repo: UserRepo):
+    try:
+        user = await repo.get_user_by_id(user_id=tg_id)
+    except NoResultFound:
+        user = await repo.upsert_user(User(tg_id=tg_id))
     await repo.commit()
     return user
 
