@@ -25,3 +25,6 @@ FREE_TAGS = [
     'embedded',
     'tagcount'
 ]
+
+BASIC_TAGS = ['is:sfw']  # Tags that will be applied to every request
+USER_DEFAULT_TAGS = ['score:>25']  # Default tags for new users
