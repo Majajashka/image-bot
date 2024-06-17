@@ -13,7 +13,8 @@ def translator_hub() -> TranslatorHub:
                 translator=FluentBundle.from_files(
                     'ru-RU', filenames=[
                         "app/bot/language/locales/ru/user.ftl",
-                        'app/bot/language/locales/ru/admin.ftl'
+                        "app/bot/language/locales/ru/admin.ftl",
+                        "app/bot/language/locales/ru/error.ftl"
                     ],
                     use_isolating=False
                 )
