@@ -35,6 +35,7 @@ async def danbooru_images(
     )
     logger.info(f'Posts for User: {message.from_user.full_name}, id: {message.from_user.id}, {post_args}')
 
+    error_count = 0
     for _ in range(post_args.count):
         try:
             post = await get_danbooru_post(post_args.tags)
@@ -48,6 +49,13 @@ async def danbooru_images(
                 photo=URLInputFile(url=post.file.url_by_size())
             )
         except InvalidDanbooruPostData as e:
+            error_count += 1
             logger.debug(e)
         except TelegramBadRequest as e:
+            error_count += 1
             logger.debug(e)
+        finally:
+            if error_count >= 5:
+                await message.answer(text='Too much errors. Aborting...')
+                break
+            error_count = 0
