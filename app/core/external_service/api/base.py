@@ -30,7 +30,7 @@ class BaseExternalAPI:
         if response.status >= 400:
             raise self.error(
                 api_name=self.__class__.__name__,
-                response_status=response.status,
+                response=response,
                 url=response.url.__str__(),
                 description=description
             )
