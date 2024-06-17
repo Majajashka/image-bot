@@ -21,6 +21,7 @@ def parse_args_for_post(
         count = default_count
         tags = arguments
 
-    return DanbooruRequestArgs(count=count, tags=set(tags + default_tags))
+    tags += default_tags
+    return DanbooruRequestArgs(count=count, tags=tags)
 
 
