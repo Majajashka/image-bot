@@ -39,9 +39,16 @@ class UserArgumentError(ValueError):
 
 
 class InvalidRequestCount(UserArgumentError):
-    def __init__(self, message: str, count: int, user_args: str = None):
+    def __init__(
+            self,
+            message: str,
+            count: int,
+            max_count: int,
+            user_args: str = None
+    ):
         super().__init__(message=message, user_args=user_args)
         self.count = count
+        self.max_count = max_count
 
 
 class InvalidTagsCount(UserArgumentError):
