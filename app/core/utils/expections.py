@@ -27,6 +27,12 @@ class ApiError(Exception):
     def response_status(self):
         return self.response.status
 
+    @property
+    async def response_json_dump(self) -> str:
+        data: dict = await self.response.json()
+        return json.dumps(data, indent=4)
+
+
 class DanbooruApiError(ApiError):
     def __init__(
             self,
