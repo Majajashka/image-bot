@@ -18,3 +18,7 @@ class UserDanbooruSettings(Base):
 
     def __repr__(self):
         return f'UserDanbooruSettings({self.default_tags=}, {self.default_count=}, {repr(self.display)}'
+
+    @property
+    def default_tags_list(self):
+        return self.default_tags.split()
