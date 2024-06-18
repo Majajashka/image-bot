@@ -34,9 +34,7 @@ async def api_error(error: ErrorEvent, i18n: TranslatorRunner):
     message = error.update.message
 
     if isinstance(exception, DanbooruApiError):
-        await message.answer(
-            text=i18n.error.api(**exception.__dict__)
-        )
+        await message.answer(text=i18n.error.api(**exception.__dict__))
 
     elif isinstance(exception, ApiError):
         await message.answer(text=i18n.error.api(**exception.__dict__))
