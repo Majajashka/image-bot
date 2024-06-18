@@ -20,7 +20,7 @@ class DanbooruAPI(BaseRequests):
 
     async def random_image(self, tags: Optional[Collection[str]] = None):
         params = {
-            'tags': ','.join(tags or [])
+            'tags': ' '.join(tags or [])
         }
         data = await self._get(
             endpoint='posts/random.json',
