@@ -1,5 +1,3 @@
-from sys import platform
-
 from typing import TypeVar, Generic
 
 from sqlalchemy.exc import NoResultFound
