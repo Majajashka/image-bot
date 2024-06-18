@@ -2,7 +2,7 @@ from typing import Collection, Optional
 
 from sqlalchemy.exc import NoResultFound
 
-from app.core.models.dto.api.danbooru import DanbooruPost, DanbooruRequestArgs
+from app.core.models.dto.api.danbooru import DanbooruPost, DanbooruRequestArgs, DanbooruTags
 from app.core.external_service.api.danbooru import DanbooruAPI
 from app.core.models.dto.api.parse_config import ParseConfig
 from app.core.models.dto.danbooru import UserDanbooruSettings
@@ -45,3 +45,9 @@ async def get_or_create_user_danbooru(user_id: int, repo: DanbooruRepo) -> UserD
         user_danbooru = await repo.create_for_user(user_id)
     await repo.session.commit()
     return user_danbooru
+
+
+async def search_tags(tag: Optional[Collection[str]]) -> DanbooruTags:
+    async with DanbooruAPI() as api:
+        tags = await api.search_tags(tag=tag)
+    return tags
