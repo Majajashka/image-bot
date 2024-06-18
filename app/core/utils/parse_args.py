@@ -25,4 +25,9 @@ def parse_args_for_post(
     return DanbooruPostRequestArgs(count=count, tags=tags)
 
 
+def parse_args_for_tags_search(user_args: Optional[str]):
+    if not user_args:
+        return None
+
+    return user_args[:1]
 
