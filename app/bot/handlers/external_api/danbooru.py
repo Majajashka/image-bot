@@ -65,3 +65,17 @@ async def danbooru_images(
                 await message.answer(text='Too much errors. Aborting...')
                 break
             error_count = 0
+
+
+@router.message(Command('/tags'))
+async def danbooru_images(
+        message: Message,
+        command: CommandObject,
+        i18n: TranslatorRunner,
+):
+    parsed_args = parse_user_danbooru_tags_args(user_args=command.args)
+    tags = await search_tags(parsed_args.tags)
+    text = '\n'.join(
+        (i18n.danbooru.tags(tag=tag.name, post_count=tag.post_count) for tag in tags)
+    )
+    await message.answer(text)
