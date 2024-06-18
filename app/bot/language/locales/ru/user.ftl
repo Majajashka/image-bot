@@ -17,3 +17,5 @@ danbooru-post = { $tags ->
         *[other]{""}
                 <b>Url</b>: { $url }
     }
+
+danbooru-tags = <code>{ $tag }</code>: { $post_count }
