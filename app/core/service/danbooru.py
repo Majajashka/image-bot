@@ -57,7 +57,7 @@ async def get_or_create_user_danbooru(user_id: int, repo: DanbooruRepo) -> UserD
     return user_danbooru
 
 
-async def search_tags(tag: Optional[Collection[str]]) -> DanbooruTags:
+async def search_tags(tag: Optional[Collection[str]]) -> list[DanbooruTags]:
     async with DanbooruAPI() as api:
         tags = await api.search_tags(tag=tag)
     return tags
