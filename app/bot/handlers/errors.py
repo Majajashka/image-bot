@@ -24,7 +24,7 @@ async def invalid_input(error: ErrorEvent, i18n: TranslatorRunner):
     if isinstance(exception, InvalidRequestCount):
         await message.answer(i18n.error.request_args.post_count(max_posts=exception.max_count))
     if isinstance(exception, InvalidTagsCount):
-        await message.answer(i18n.error.request_args.tags_count(max_tags=exception.count))
+        await message.answer(i18n.error.request_args.tags_count())
     logger.debug(repr(exception))
 
 
