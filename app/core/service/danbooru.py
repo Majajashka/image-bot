@@ -32,8 +32,8 @@ def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> Danbo
 
 
 async def get_danbooru_post(tags: Optional[Collection[str]] = None) -> DanbooruPost:
-    danbooru = DanbooruAPI()
-    post = await danbooru.image(tags)
+    async with DanbooruAPI() as api:
+        post = await api.image(tags)
     validated_post = validate_danbooru_post(post)
     return validated_post
 
