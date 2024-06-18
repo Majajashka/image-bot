@@ -40,7 +40,7 @@ async def danbooru_images(
         try:
             post = await get_danbooru_post(post_args.tags)
             await message.answer_photo(
-                caption=i18n.post.danbooru(
+                caption=i18n.danbooru.post(
                     tags=post.tags.general_tags_html_escape if user.display.tags else False,
                     url=post.file.url if user.display.url else False,
                     score=post.score if user.display.score else False,

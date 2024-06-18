@@ -1,6 +1,6 @@
 start = Добро пожаловать, { $name }!
 
-post-danbooru = { $tags ->
+danbooru-post = { $tags ->
         [0] {""}
         *[other]{""}
                 <b>Tags</b>: { $tags }
