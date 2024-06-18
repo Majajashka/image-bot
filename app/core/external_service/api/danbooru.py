@@ -12,7 +12,10 @@ class DanbooruAPI(BaseRequests):
 
     async def _handle_error(self, response: ClientResponse, description: str = None) -> None:
         data: dict = await response.json()
-        description = data.get('message')
+        if isinstance(data, dict):
+            description = data.get('message')
+        if isinstance(data, list):
+            description = None
         await super()._handle_error(response, description)
 
     async def random_image(self, tags: Optional[Collection[str]] = None):
