@@ -1,15 +1,15 @@
 from typing import Optional, Collection
 
-from app.core.models.dto.api.danbooru import DanbooruRequestArgs
+from app.core.models.dto.api.danbooru import DanbooruPostRequestArgs
 
 
 def parse_args_for_post(
         user_args: Optional[str],
         default_count: int = 1,
         default_tags: Optional[Collection[str]] = None
-) -> DanbooruRequestArgs:
+) -> DanbooruPostRequestArgs:
     if not user_args:
-        return DanbooruRequestArgs(count=default_count, tags=default_tags)
+        return DanbooruPostRequestArgs(count=default_count, tags=default_tags)
     if not default_tags:
         default_tags = []
 
@@ -22,6 +22,7 @@ def parse_args_for_post(
         tags = arguments
 
     tags += default_tags
-    return DanbooruRequestArgs(count=count, tags=tags)
+    return DanbooruPostRequestArgs(count=count, tags=tags)
+
 
 
