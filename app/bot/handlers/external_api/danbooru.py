@@ -6,8 +6,14 @@ from aiogram.filters import Command, CommandObject
 from aiogram.types import Message, URLInputFile
 from fluentogram import TranslatorRunner
 
-from app.core.models.dto.api.parse_config import ParseConfig
-from app.core.service.danbooru import get_danbooru_post, parse_user_danbooru_args, get_or_create_user_danbooru
+from app.core.models.dto.api.danbooru.parse_config import PostParseConfig
+from app.core.service.danbooru import (
+    get_danbooru_post,
+    search_tags,
+    parse_user_danbooru_post_args,
+    get_or_create_user_danbooru,
+    parse_user_danbooru_tags_args
+)
 from app.core.utils.expections import InvalidDanbooruPostData
 from app.infrastructure.database.holder import HolderRepo
 from app.core.constants.danbooru import MAX_ADMIN_POST_COUNT
@@ -25,7 +31,7 @@ async def danbooru_images(
 ):
     user = await get_or_create_user_danbooru(user_id=message.from_user.id, repo=repo.danbooru)
     logger.info(user)
-    post_args = parse_user_danbooru_args(
+    post_args = parse_user_danbooru_post_args(
         user_args=command.args,
         parse_config=PostParseConfig(
             max_count=MAX_ADMIN_POST_COUNT,
