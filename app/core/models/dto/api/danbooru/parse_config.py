@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ParseConfig:
+class PostParseConfig:
     max_count: int
     default_tags: Union[Tuple[str], List[str]] = None
     default_count: int = 1

@@ -27,7 +27,7 @@ async def danbooru_images(
     logger.info(user)
     post_args = parse_user_danbooru_args(
         user_args=command.args,
-        parse_config=ParseConfig(
+        parse_config=PostParseConfig(
             max_count=MAX_ADMIN_POST_COUNT,
             default_tags=user.default_tags_list,
             default_count=user.default_count
