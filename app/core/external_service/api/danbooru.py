@@ -34,7 +34,7 @@ class DanbooruAPI(BaseRequests):
     ) -> list[DanbooruTags]:
         params = {
             'search[name_regex]': regex.format(tag or ''),
-            'search[hide_empty]': hide_empty,
+            'search[hide_empty]': int(hide_empty),
             'search[order]': order
         }
         data = await self._get(
