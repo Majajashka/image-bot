@@ -7,5 +7,5 @@ def validate_danbooru_post(post: DanbooruPost) -> DanbooruPost:
     if post.file.ext not in ALLOWED_FILE_TYPES:
         raise InvalidDanbooruPostData(f'Unallowed file ext. File ext: {post.file.ext}')
     if not post.file.url:
-        raise InvalidDanbooruPostData(f'{type(post)} missing file url. ID: {post.id}')
+        raise InvalidDanbooruPostData(f'{post.__class__.__name__} missing file url. ID: {post.id}')
     return post
