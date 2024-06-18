@@ -16,7 +16,7 @@ class DanbooruAPI(BaseRequests):
         description = data.get('message')
         await super()._handle_error(response, description)
 
-    async def image(self, tags: Optional[Collection[str]] = None):
+    async def random_image(self, tags: Optional[Collection[str]] = None):
         params = {
             'tags': ','.join(tags or [])
         }
