@@ -7,7 +7,7 @@ from app.core.utils.expections import ApiError
 class BaseExternalAPI:
     def __init__(self, url: str, error: Type[ApiError] = ApiError):
         self.base_url = url
-        self.session = ClientSession()
+        self.session = None
 
         if not issubclass(error, ApiError):
             raise ValueError(f'{error} is not subclass of ApiError')
@@ -51,5 +51,12 @@ class BaseExternalAPI:
     async def put(self, endpoint: str, data=None):
         return await self.fetch(endpoint, 'PUT', data=data)
 
-    async def session_close(self) -> None:
-        await self.session.close()
+    async def __aenter__(self):
+        if self.session is None or self.session.closed:
+            self.session = ClientSession()
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb):
+        if self.session is not None:
+            await self.session.close()
+ 
