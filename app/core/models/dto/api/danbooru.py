@@ -86,3 +86,29 @@ class DanbooruPost:
             ),
             md5=data.get('md5')
         )
+
+
+@dataclass
+class DanbooruTags:
+    id: int
+    name: str
+    post_count: int
+    category: int
+    created_at: str
+    updated_at: str
+    is_deprecated: bool
+    words: list
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(
+            id=data.get('id'),
+            name=data.get('name'),
+            post_count=data.get('post_count'),
+            category=data.get('category'),
+            created_at=data.get('created_at'),
+            updated_at=data.get('updated_at'),
+            is_deprecated=data.get('is_deprecated'),
+            words=data.get('words')
+
+        )
