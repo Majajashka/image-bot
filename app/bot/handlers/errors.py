@@ -24,7 +24,7 @@ async def invalid_input(error: ErrorEvent, i18n: TranslatorRunner):
     if isinstance(exception, InvalidRequestCount):
         await message.answer(i18n.error.request_args.post_count(max_posts=exception.max_count))
     if isinstance(exception, InvalidTagsCount):
-        await message.answer(i18n.error.request_args.post_count(max_posts=exception.count))
+        await message.answer(i18n.error.request_args.tags_count(max_tags=exception.count))
     logger.debug(repr(exception))
 
 
@@ -34,10 +34,10 @@ async def api_error(error: ErrorEvent, i18n: TranslatorRunner):
     message = error.update.message
 
     if isinstance(exception, DanbooruApiError):
-        await message.answer(text=i18n.error.api(**exception.__dict__))
+        await message.answer(text=i18n.error.api(response_status=exception.response_status, **exception.__dict__))
 
     elif isinstance(exception, ApiError):
-        await message.answer(text=i18n.error.api(**exception.__dict__))
+        await message.answer(text=i18n.error.api(response_status=exception.response_status, **exception.__dict__))
 
     logger.exception(
         f"Cause {exception.__class__.__name__}:\n"
