@@ -67,7 +67,7 @@ async def danbooru_images(
             error_count = 0
 
 
-@router.message(Command('/tags'))
+@router.message(Command('tags'))
 async def danbooru_images(
         message: Message,
         command: CommandObject,
