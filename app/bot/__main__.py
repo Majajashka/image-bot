@@ -48,6 +48,7 @@ async def main() -> None:
     logger.info('Including middlewaries...')
     dp.update.middleware(DbSessionMiddleware(session_pool=sessionmaker))
     dp.update.middleware(TranslatorMD())
+    dp.errors.middleware(TranslatorMD())
 
     logger.info('Setting menu...')
     if not await set_main_menu(bot):
