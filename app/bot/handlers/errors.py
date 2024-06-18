@@ -39,12 +39,6 @@ async def api_error(error: ErrorEvent, i18n: TranslatorRunner):
     elif isinstance(exception, ApiError):
         await message.answer(text=i18n.error.api(response_status=exception.response_status, **exception.__dict__))
 
-    logger.exception(
-        f"Cause {exception.__class__.__name__}:\n"
-        f"{await exception.response_json_dump}",
-        exc_info=exception
-    )
-
 
 @router.errors()
 async def undefined_error(error: ErrorEvent):
