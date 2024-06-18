@@ -2,17 +2,22 @@ from typing import Collection, Optional
 
 from sqlalchemy.exc import NoResultFound
 
-from app.core.models.dto.api.danbooru import DanbooruPost, DanbooruRequestArgs, DanbooruTags
+from app.core.models.dto.api.danbooru import (
+    DanbooruPost,
+    DanbooruPostRequestArgs,
+    DanbooruTags,
+    DanbooruTagsRequestArgs
+)
 from app.core.external_service.api.danbooru import DanbooruAPI
-from app.core.models.dto.api.parse_config import ParseConfig
+from app.core.models.dto.api.danbooru import PostParseConfig
 from app.core.models.dto.danbooru import UserDanbooruSettings
 from app.core.utils.expections import UserArgumentError, InvalidRequestCount
-from app.core.utils.parse_args import parse_args_for_post
+from app.core.utils.parse_args import parse_args_for_post, parse_args_for_tags_search
 from app.core.utils.validate_response import validate_danbooru_post
 from app.infrastructure.database.repo.danbooru import DanbooruRepo
 
 
-def parse_user_danbooru_args(user_args: str, parse_config: ParseConfig) -> DanbooruRequestArgs:
+def parse_user_danbooru_post_args(user_args: str, parse_config: PostParseConfig) -> DanbooruPostRequestArgs:
     try:
         parsed_args = parse_args_for_post(
             user_args=user_args,
