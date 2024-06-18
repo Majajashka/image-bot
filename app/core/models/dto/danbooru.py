@@ -8,7 +8,7 @@ class DanbooruDisplaySettings(Base):
     url: bool
 
     def __repr__(self):
-        return f'DanbooruDisplaySettings({self.tags=}, {self.score=}, {self.rating=}, {self.url=}'
+        return f'DanbooruDisplaySettings({self.tags=}, {self.score=}, {self.rating=}, {self.url=})'
 
 
 class UserDanbooruSettings(Base):
