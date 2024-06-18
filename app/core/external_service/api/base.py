@@ -4,7 +4,7 @@ from aiohttp import ClientSession, ClientResponse
 from app.core.utils.expections import ApiError
 
 
-class BaseExternalAPI:
+class BaseRequests:
     def __init__(self, url: str, error: Type[ApiError] = ApiError):
         self.base_url = url
         self.session = None
@@ -35,21 +35,21 @@ class BaseExternalAPI:
                 description=description
             )
 
-    async def fetch(self, endpoint: str, method='GET', params=None, data=None) -> dict:
+    async def _fetch(self, endpoint: str, method='GET', params=None, data=None) -> dict:
         url = f"{self.base_url}/{endpoint}"
         async with self.session.request(method, url, params=params, data=data) as response:
             data = await response.json()
             await self._handle_error(response)
             return data
 
-    async def get(self, endpoint: str, params=None):
-        return await self.fetch(endpoint, 'GET', params=params)
+    async def _get(self, endpoint: str, params=None):
+        return await self._fetch(endpoint, 'GET', params=params)
 
-    async def post(self, endpoint: str, data=None):
-        return await self.fetch(endpoint, 'POST', data=data)
+    async def _post(self, endpoint: str, data=None):
+        return await self._fetch(endpoint, 'POST', data=data)
 
-    async def put(self, endpoint: str, data=None):
-        return await self.fetch(endpoint, 'PUT', data=data)
+    async def _put(self, endpoint: str, data=None):
+        return await self._fetch(endpoint, 'PUT', data=data)
 
     async def __aenter__(self):
         if self.session is None or self.session.closed:

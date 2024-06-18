@@ -3,10 +3,11 @@ from aiohttp import ClientResponse
 
 from app.core.external_service.api.base import BaseExternalAPI
 from app.core.models.dto.api.danbooru import DanbooruPost
+from app.core.models.dto.api.danbooru import DanbooruPost, DanbooruTags
 from app.core.utils.expections import DanbooruApiError
 
 
-class DanbooruAPI(BaseExternalAPI):
+class DanbooruAPI(BaseRequests):
     def __init__(self):
         super().__init__(url="https://danbooru.donmai.us", error=DanbooruApiError)
 
@@ -19,7 +20,7 @@ class DanbooruAPI(BaseExternalAPI):
         params = {
             'tags': ','.join(tags or [])
         }
-        data = await self.get(
+        data = await self._get(
             endpoint='posts/random.json',
             params=params
         )
