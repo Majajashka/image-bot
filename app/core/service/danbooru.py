@@ -11,7 +11,7 @@ from app.core.models.dto.api.danbooru import (
 from app.core.external_service.api.danbooru import DanbooruAPI
 from app.core.models.dto.api.danbooru import PostParseConfig
 from app.core.models.dto.danbooru import UserDanbooruSettings
-from app.core.utils.expections import UserArgumentError, InvalidRequestCount
+from app.core.utils.expections import UserArgumentError, InvalidRequestCount, InvalidTagsCount
 from app.core.utils.parse_args import parse_args_for_post, parse_args_for_tags_search
 from app.core.utils.validate_response import validate_danbooru_post
 from app.infrastructure.database.repo.danbooru import DanbooruRepo
@@ -24,6 +24,8 @@ def parse_user_danbooru_post_args(user_args: str, parse_config: PostParseConfig)
             default_count=parse_config.default_count,
             default_tags=parse_config.default_tags
         )
+    except InvalidTagsCount:
+        raise
     except ValueError as e:
         raise UserArgumentError(f'Invalid arguments: {e}', user_args=user_args) from e
     if parsed_args.count > parse_config.max_count:
