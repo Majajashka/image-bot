@@ -12,6 +12,7 @@ class UserOrm(Base, TimestampMixin):
     active: Mapped[bool] = mapped_column(server_default=true())
     language: Mapped[str] = mapped_column(default='ru')
     banned: Mapped[bool] = mapped_column(server_default=false())
+    binded_chat: Mapped[int] = mapped_column(BigInteger, server_default=None)
 
     danbooru = relationship('DanbooruOrm', back_populates='user')
 
@@ -27,5 +28,6 @@ class UserOrm(Base, TimestampMixin):
             language=self.language,
             created_at=self.created_at,
             updated_at=self.updated_at,
-            banned=self.banned
+            banned=self.banned,
+            binded_chat=self.binded_chat
         )

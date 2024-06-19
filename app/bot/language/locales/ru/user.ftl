@@ -19,3 +19,4 @@ danbooru-post = { $tags ->
     }
 
 danbooru-tags = <code>{ $tag }</code>: { $post_count }
+chat_bind = Чат был успешно привязан!

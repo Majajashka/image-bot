@@ -6,3 +6,5 @@ error-api =
 
 error-request_args-post_count = You cannot search for more than { $max_posts } post at a time.
 error-request_args-tags_count = You cannot search for more than 2 tags at a time.
+
+error-chat_bind = Для пересылки сообщения нужно привязать чат!

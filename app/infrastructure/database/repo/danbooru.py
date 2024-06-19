@@ -15,10 +15,10 @@ class DanbooruRepo(BaseRepo[DanbooruOrm]):
 
     async def create_for_user(self, user_id: int) -> UserDanbooruSettings:
         stmt = (
-            insert(DanbooruOrm)
+            insert(self.model)
             .values(tg_id=user_id)
             .on_conflict_do_nothing()
-            .returning(DanbooruOrm)
+            .returning(self.model)
         )
         result = await self.session.execute(stmt)
         return result.scalar_one().to_dto()

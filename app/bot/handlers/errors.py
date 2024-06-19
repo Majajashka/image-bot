@@ -3,6 +3,7 @@ import logging
 from aiogram import Router
 from aiogram.filters.exception import ExceptionTypeFilter, ErrorEvent
 from fluentogram import TranslatorRunner
+from sqlalchemy.exc import NoResultFound
 
 from app.core.utils.expections import (
     UserArgumentError,
@@ -38,6 +39,12 @@ async def api_error(error: ErrorEvent, i18n: TranslatorRunner):
 
     elif isinstance(exception, ApiError):
         await message.answer(text=i18n.error.api(response_status=exception.response_status, **exception.__dict__))
+
+
+@router.errors(ExceptionTypeFilter(NoResultFound))
+async def no_result_found(error: ErrorEvent):
+    logger.info(error.exception)
+    await error.update.message.answer('Firstly write to bot pm!')
 
 
 @router.errors()

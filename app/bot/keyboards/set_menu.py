@@ -11,4 +11,3 @@ async def set_main_menu(bot: Bot) -> bool:
     ]
 
     return await bot.set_my_commands(main_menu_commands)
-

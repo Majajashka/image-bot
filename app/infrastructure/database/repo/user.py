@@ -1,4 +1,4 @@
-from sqlalchemy import select, func
+from sqlalchemy import select, func, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -33,3 +33,12 @@ class UserRepo(BaseRepo[UserOrm]):
         users = await self.session.execute(stmt)
         count = users.scalars().one()
         return count
+
+    async def bind_chat(self, user_id: int, chat_id: int) -> User:
+        stmt = (
+            update(self.model)
+            .where(self.model.tg_id == user_id)
+            .values(chat_id=chat_id)
+        )
+        result = await self.session.execute(stmt)
+        return result.scalar_one().to_dto()
