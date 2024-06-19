@@ -20,6 +20,6 @@ async def start(message: Message, i18n: TranslatorRunner, repo: HolderRepo):
 
 
 @router.message(IsChatAdmin(), Command('bind_chat'))
-async def bind_chat(message: Message, l18n: TranslatorRunner, repo: HolderRepo):
+async def bind_chat(message: Message, i18n: TranslatorRunner, repo: HolderRepo):
     await bind_user_chat(user_id=message.from_user.id, chat_id=message.chat.id, repo=repo.users)
-    await message.answer(text=l18n.chat_bind())
+    await message.answer(text=i18n.chat_bind())
