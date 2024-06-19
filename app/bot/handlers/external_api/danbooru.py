@@ -94,11 +94,11 @@ async def resend_photo(
         callback_data: BindedChatCallbackFactory,
         bot: Bot,
         repo: HolderRepo,
-        l18n: TranslatorRunner
+        i18n: TranslatorRunner
 ):
     user = await get_or_create_user(tg_id=callback.from_user.id, repo=repo.users)
     if user.binded_chat is None:
-        await callback.answer(l18n.error.chat_bind())
+        await callback.answer(i18n.error.chat_bind())
         return
     await bot.copy_message(
         chat_id=user.binded_chat,
