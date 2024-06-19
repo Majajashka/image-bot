@@ -28,13 +28,13 @@ class DanbooruAPI(BaseRequests):
 
     async def search_tags(
             self,
-            tag: Optional[str],
+            tag: Optional[Collection[str]] = None,
             regex: str = '.*{}.*',
             order: str = 'count',
             hide_empty: bool = True
     ) -> list[DanbooruTags]:
         params = {
-            'search[name_regex]': regex.format(tag or ''),
+            'search[name_regex]': regex.format(','.join(tag) or ''),
             'search[hide_empty]': int(hide_empty),
             'search[order]': order
         }

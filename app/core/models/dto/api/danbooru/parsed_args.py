@@ -24,4 +24,6 @@ class DanbooruPostRequestArgs:
 
 @dataclass
 class DanbooruTagsRequestArgs:
-    tags: Optional[str]
+    tags: Optional[list[str]]
+
+

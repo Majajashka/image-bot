@@ -40,7 +40,7 @@ def parse_user_danbooru_post_args(user_args: str, parse_config: PostParseConfig)
 
 def parse_user_danbooru_tags_args(user_args: str) -> DanbooruTagsRequestArgs:
     tags = parse_args_for_tags_search(user_args)
-    return DanbooruTagsRequestArgs(tags=tags)
+    return tags
 
 
 async def get_danbooru_post(tags: Optional[Collection[str]] = None) -> DanbooruPost:

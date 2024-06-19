@@ -1,6 +1,6 @@
 from typing import Optional, Collection
 
-from app.core.models.dto.api.danbooru import DanbooruPostRequestArgs
+from app.core.models.dto.api.danbooru import DanbooruPostRequestArgs, DanbooruTagsRequestArgs
 
 
 def parse_args_for_post(
@@ -25,9 +25,8 @@ def parse_args_for_post(
     return DanbooruPostRequestArgs(count=count, tags=tags)
 
 
-def parse_args_for_tags_search(user_args: Optional[str]):
+def parse_args_for_tags_search(user_args: Optional[str]) -> DanbooruTagsRequestArgs:
     if not user_args:
-        return None
+        return DanbooruTagsRequestArgs(tags=None)
 
-    return user_args.split()[:1]
-
+    return DanbooruTagsRequestArgs(tags=user_args.split())
