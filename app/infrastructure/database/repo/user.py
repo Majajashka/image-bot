@@ -38,7 +38,7 @@ class UserRepo(BaseRepo[UserOrm]):
         stmt = (
             update(self.model)
             .where(self.model.tg_id == user_id)
-            .values(chat_id=chat_id)
+            .values(binded_chat=chat_id)
         )
         result = await self.session.execute(stmt)
         return result.scalar_one().to_dto()
