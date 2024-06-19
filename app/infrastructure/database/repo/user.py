@@ -34,11 +34,11 @@ class UserRepo(BaseRepo[UserOrm]):
         count = users.scalars().one()
         return count
 
-    async def bind_chat(self, user_id: int, chat_id: int) -> User:
+    async def bind_chat(self, user_id: int, chat_id: int):
         stmt = (
             update(self.model)
             .where(self.model.tg_id == user_id)
             .values(binded_chat=chat_id)
         )
         result = await self.session.execute(stmt)
-        return result.scalar_one().to_dto()
+

@@ -19,10 +19,6 @@ async def get_users_count_by_status(repo: UserRepo) -> UserActivity:
     return UserActivity(active=active, inactive=inactive)
 
 
-async def bind_user_chat(user_id: int, chat_id: int, repo: UserRepo) -> User:
-    try:
-        user = await repo.bind_chat(user_id=user_id, chat_id=chat_id)
-        await repo.commit()
-    except NoResultFound:
-        raise
-    return user
+async def bind_user_chat(user_id: int, chat_id: int, repo: UserRepo):
+    user = await repo.bind_chat(user_id=user_id, chat_id=chat_id)
+    await repo.commit()
