@@ -14,8 +14,6 @@ class DanbooruAPI(BaseRequests):
         data: dict = await response.json()
         if isinstance(data, dict):
             description = data.get('message')
-        if isinstance(data, list):
-            description = None
         await super()._handle_error(response, description)
 
     async def random_image(self, tags: Optional[Collection[str]] = None):
