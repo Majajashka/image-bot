@@ -103,4 +103,4 @@ async def resend_photo(
     await bot.copy_message(
         chat_id=user.binded_chat,
         from_chat_id=callback_data.chat_id,
-        message_id=callback_data.message_id)
+        message_id=callback.message.message_id)
