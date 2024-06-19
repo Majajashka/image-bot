@@ -34,7 +34,7 @@ class DanbooruAPI(BaseRequests):
             hide_empty: bool = True
     ) -> list[DanbooruTags]:
         if not tag:
-            tags = ['']
+            tag = ['']
         params = {
             'search[name_regex]': regex.format(tag[0]),
             'search[hide_empty]': int(hide_empty),
