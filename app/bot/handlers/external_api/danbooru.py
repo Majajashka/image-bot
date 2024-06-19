@@ -74,7 +74,7 @@ async def danbooru_images(
         i18n: TranslatorRunner,
 ):
     parsed_args = parse_user_danbooru_tags_args(user_args=command.args)
-    tags = await search_tags(parsed_args.tags)
+    tags = await search_tags(parsed_args.tags[0])
     text = '\n'.join(
         (i18n.danbooru.tags(tag=tag.name, post_count=tag.post_count) for tag in tags)
     )

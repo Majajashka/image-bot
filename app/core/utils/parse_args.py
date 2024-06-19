@@ -27,6 +27,6 @@ def parse_args_for_post(
 
 def parse_args_for_tags_search(user_args: Optional[str]) -> DanbooruTagsRequestArgs:
     if not user_args:
-        return DanbooruTagsRequestArgs(tags=[''])
+        return DanbooruTagsRequestArgs(tags=None)
 
     return DanbooruTagsRequestArgs(tags=user_args.split())
