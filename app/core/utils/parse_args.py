@@ -29,5 +29,5 @@ def parse_args_for_tags_search(user_args: Optional[str]):
     if not user_args:
         return None
 
-    return user_args[:1]
+    return user_args.split()[:1]
 
