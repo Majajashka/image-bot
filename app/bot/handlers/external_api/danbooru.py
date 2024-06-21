@@ -43,7 +43,6 @@ async def danbooru_images(
     )
     logger.info(f'Posts for User: {message.from_user.full_name}, id: {message.from_user.id}, {post_args}')
 
-    error_count = 0
     for _ in range(post_args.count):
         try:
             post = await get_danbooru_post(post_args.tags)
@@ -57,21 +56,13 @@ async def danbooru_images(
                 photo=URLInputFile(url=post.file.url_by_size()),
                 reply_markup=danbooru_post_inline_kb(
                     user_id=message.from_user.id,
-                    message_id=message.message_id,
-                    chat_id=message.chat.id
+                    binded_chat_id=message.chat.id
                 )
             )
         except InvalidDanbooruPostData as e:
-            error_count += 1
             logger.debug(e)
         except TelegramBadRequest as e:
-            error_count += 1
             logger.debug(e)
-        finally:
-            if error_count >= 5:
-                await message.answer(text='Too much errors. Aborting...')
-                break
-            error_count = 0
 
 
 @router.message(Command('search'))
@@ -88,6 +79,16 @@ async def danbooru_images(
     await message.answer(text)
 
 
+@router.message(Command('/default_tags'))
+async def set_default_tag(
+        command: CommandObject,
+        message: Message,
+        i18n: TranslatorRunner,
+        repo: HolderRepo
+):
+    danbooru_user = await get_or_create_user_danbooru(user_id=message.from_user.id, repo=repo.danbooru)
+
+
 @router.callback_query(BindedChatCallbackFactory.filter())
 async def resend_photo(
         callback: CallbackQuery,
@@ -102,5 +103,6 @@ async def resend_photo(
         return
     await bot.copy_message(
         chat_id=user.binded_chat,
-        from_chat_id=callback_data.chat_id,
-        message_id=callback.message.message_id)
+        from_chat_id=callback.message.chat.id,
+        message_id=callback.message.message_id
+    )
