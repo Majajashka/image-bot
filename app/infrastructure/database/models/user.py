@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy import BigInteger, true, false
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -12,7 +14,7 @@ class UserOrm(Base, TimestampMixin):
     active: Mapped[bool] = mapped_column(server_default=true())
     language: Mapped[str] = mapped_column(default='ru')
     banned: Mapped[bool] = mapped_column(server_default=false())
-    binded_chat: Mapped[int] = mapped_column(BigInteger, server_default=None)
+    binded_chat: Mapped[Optional[int]] = mapped_column(BigInteger)
 
     danbooru = relationship('DanbooruOrm', back_populates='user')
 

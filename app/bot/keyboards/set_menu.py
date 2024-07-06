@@ -7,7 +7,11 @@ async def set_main_menu(bot: Bot) -> bool:
         BotCommand(command='/danbooru',
                    description='<count> <tags>'),
         BotCommand(command='/search',
-                   description='Search tags')
+                   description='Search tags'),
+        BotCommand(command='/default_tags',
+                   description='Set tags that will be applied to every post request'),
+        BotCommand(command='/default_count',
+                   description='Set count of posts that will be applied to every post request')
     ]
 
     return await bot.set_my_commands(main_menu_commands)

@@ -1,3 +1,4 @@
+from sqlalchemy import update, text
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -22,3 +23,35 @@ class DanbooruRepo(BaseRepo[DanbooruOrm]):
         )
         result = await self.session.execute(stmt)
         return result.scalar_one().to_dto()
+
+    async def set_default_tags(self, user_id: int, default_tags: str) -> None:
+        stmt = (
+            update(self.model)
+            .where(self.model.tg_id == user_id)
+            .values(default_tags=default_tags)
+        )
+        await self.session.execute(stmt)
+
+    async def set_default_count(self, user_id: int, default_count: int) -> None:
+        stmt = (
+            update(self.model)
+            .where(self.model.tg_id == user_id)
+            .values(default_count=default_count)
+        )
+        await self.session.execute(stmt)
+
+    async def reset_default_tags(self, user_id: int) -> None:
+        stmt = (
+            update(self.model)
+            .where(self.model.tg_id == user_id)
+            .values(default_tags=text('DEFAULT'))
+        )
+        await self.session.execute(stmt)
+
+    async def reset_default_count(self, user_id: int) -> None:
+        stmt = (
+            update(self.model)
+            .where(self.model.tg_id == user_id)
+            .values(default_count=text('DEFAULT'))
+        )
+        await self.session.execute(stmt)

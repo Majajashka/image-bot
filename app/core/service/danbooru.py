@@ -63,3 +63,19 @@ async def search_tags(tag: Optional[Collection[str]]) -> list[DanbooruTags]:
     async with DanbooruAPI() as api:
         tags = await api.search_tags(tag=tag)
     return tags
+
+
+async def reset_default_tags(user_id: int, repo: DanbooruRepo) -> None:
+    await repo.reset_default_tags(user_id=user_id)
+
+
+async def reset_default_count(user_id: int, repo: DanbooruRepo) -> None:
+    await repo.reset_default_count(user_id=user_id)
+
+
+async def set_default_tags(user_id: int, repo: DanbooruRepo, tags: str) -> None:
+    await repo.set_default_tags(user_id=user_id, default_tags=tags)
+
+
+async def set_default_count(user_id: int, repo: DanbooruRepo, count: int = 1) -> None:
+    await repo.set_default_count(user_id=user_id, default_count=count)

@@ -13,6 +13,7 @@ class DanbooruDisplaySettings(Base):
     def __str__(self):
         return f'Display settings - Tags: {self.tags}, Score: {self.score}, Rating: {self.rating}, URL: {self.url}'
 
+
 class UserDanbooruSettings(Base):
     default_tags: str
     default_count: int

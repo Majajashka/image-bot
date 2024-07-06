@@ -93,16 +93,10 @@ async def set_default_tag(
 async def resend_photo(
         callback: CallbackQuery,
         callback_data: BindedChatCallbackFactory,
-        bot: Bot,
-        repo: HolderRepo,
         i18n: TranslatorRunner
 ):
-    user = await get_or_create_user(tg_id=callback.from_user.id, repo=repo.users)
-    if user.binded_chat is None:
+    if callback_data.binded_chat_id is None:
         await callback.answer(i18n.error.chat_bind())
         return
-    await bot.copy_message(
-        chat_id=user.binded_chat,
-        from_chat_id=callback.message.chat.id,
-        message_id=callback.message.message_id
-    )
+    await callback.message.copy_to(chat_id=callback_data.binded_chat_id)
+    await callback.message.delete_reply_markup()
