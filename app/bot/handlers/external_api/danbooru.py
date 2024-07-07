@@ -55,8 +55,7 @@ async def danbooru_images(
                 ),
                 photo=URLInputFile(url=post.file.url_by_size()),
                 reply_markup=danbooru_post_inline_kb(
-                    user_id=message.from_user.id,
-                    binded_chat_id=message.chat.id
+                    user_id=message.from_user.id
                 )
             )
         except InvalidDanbooruPostData as e:
@@ -93,10 +92,12 @@ async def set_default_tag(
 async def resend_photo(
         callback: CallbackQuery,
         callback_data: BindedChatCallbackFactory,
-        i18n: TranslatorRunner
+        i18n: TranslatorRunner,
+        repo: HolderRepo
 ):
-    if callback_data.binded_chat_id is None:
+    user = await get_or_create_user(callback.from_user.id, repo=repo.users)
+    if user.binded_chat is None:
         await callback.answer(i18n.error.chat_bind())
         return
-    await callback.message.copy_to(chat_id=callback_data.binded_chat_id)
+    await callback.message.copy_to(chat_id=user.binded_chat)
     await callback.message.delete_reply_markup()
