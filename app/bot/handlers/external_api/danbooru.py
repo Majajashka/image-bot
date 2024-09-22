@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from aiogram import Router, Bot
+from aiogram import Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, CommandObject
 from aiogram.types import Message, URLInputFile, CallbackQuery
@@ -12,7 +12,9 @@ from app.core.service.danbooru import (
     search_tags,
     parse_user_danbooru_post_args,
     get_or_create_user_danbooru,
-    parse_user_danbooru_tags_args
+    parse_user_danbooru_tags_args,
+    set_default_tags,
+    set_default_count,
 )
 from app.core.service.user import get_or_create_user
 from app.core.utils.expections import InvalidDanbooruPostData
@@ -82,16 +84,27 @@ async def danbooru_images(
 async def set_default_tag(
         command: CommandObject,
         message: Message,
+        repo: HolderRepo
+):
+    await set_default_tags(user_id=message.from_user.id, repo=repo.danbooru, tags=command.args)
+
+
+@router.message(Command('default_count'))
+async def set_default_count_(
+        command: CommandObject,
+        message: Message,
         i18n: TranslatorRunner,
         repo: HolderRepo
 ):
-    danbooru_user = await get_or_create_user_danbooru(user_id=message.from_user.id, repo=repo.danbooru)
+    if not command.args.isdigit() and int(command.args) <= 100:
+        await message.answer(i18n.error.invalid_default_tags_arguments())
+        return
+    await set_default_count(user_id=message.from_user.id, repo=repo.danbooru, count=int(command.args))
 
 
 @router.callback_query(BindedChatCallbackFactory.filter())
 async def resend_photo(
         callback: CallbackQuery,
-        callback_data: BindedChatCallbackFactory,
         i18n: TranslatorRunner,
         repo: HolderRepo
 ):
