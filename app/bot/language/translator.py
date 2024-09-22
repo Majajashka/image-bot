@@ -11,7 +11,8 @@ def translator_hub() -> TranslatorHub:
             FluentTranslator(
                 locale='ru',
                 translator=FluentBundle.from_files(
-                    'ru-RU', filenames=[
+                    locale='ru-RU',
+                    filenames=[
                         "app/bot/language/locales/ru/user.ftl",
                         "app/bot/language/locales/ru/admin.ftl",
                         "app/bot/language/locales/ru/error.ftl"
