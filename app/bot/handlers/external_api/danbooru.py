@@ -87,7 +87,7 @@ async def set_default_tag(
         repo: HolderRepo
 ):
     await set_default_tags(user_id=message.from_user.id, repo=repo.danbooru, tags=command.args)
-    await message.answer('Succes')
+    await message.answer('Success')
 
 
 @router.message(Command('default_count'))
@@ -101,7 +101,7 @@ async def set_default_count_(
         await message.answer(i18n.error.invalid_default_tags_arguments())
         return
     await set_default_count(user_id=message.from_user.id, repo=repo.danbooru, count=int(command.args))
-    await message.answer('Succes')
+    await message.answer('Success')
 
 
 @router.callback_query(BindedChatCallbackFactory.filter())
