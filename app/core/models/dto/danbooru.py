@@ -15,7 +15,7 @@ class DanbooruDisplaySettings(Base):
 
 
 class UserDanbooruSettings(Base):
-    default_tags: str
+    default_tags: str | None = None
     default_count: int
     display: DanbooruDisplaySettings
 
@@ -28,4 +28,6 @@ class UserDanbooruSettings(Base):
 
     @property
     def default_tags_list(self):
+        if not self.default_tags:
+            return []
         return self.default_tags.split()
