@@ -21,4 +21,5 @@ class DbSessionMiddleware(BaseMiddleware):
         async with self.session_pool() as session:
             holder = HolderRepo(session=session)
             data['repo'] = holder
-            return await handler(event, data)
+            await handler(event, data)
+            await session.commit()
