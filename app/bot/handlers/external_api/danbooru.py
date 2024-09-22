@@ -82,8 +82,8 @@ async def danbooru_images(
 
 @router.message(Command('/default_tags'))
 async def set_default_tag(
-        command: CommandObject,
         message: Message,
+        command: CommandObject,
         repo: HolderRepo
 ):
     await set_default_tags(user_id=message.from_user.id, repo=repo.danbooru, tags=command.args)
@@ -91,8 +91,8 @@ async def set_default_tag(
 
 @router.message(Command('default_count'))
 async def set_default_count_(
-        command: CommandObject,
         message: Message,
+        command: CommandObject,
         i18n: TranslatorRunner,
         repo: HolderRepo
 ):
